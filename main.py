@@ -70,13 +70,15 @@ def create_course():
   return json.dumps(course.id), 201 
 
 
-@app.route('/course/<id>', methods=['GET'])
+@app.route('/course', methods=['GET'])
 @jwt_required()
-def get_course(id):
-  course = Course.query.filter_by(userid=current_identity.id, id=id).first()
+def get_course():
+  course = Course.query.filter_by(userid=current_identity.id).first()
   if course == None:
     return 'Invalid id or unauthorized'
   return json.dumps(course.toDict())
+
+
 
 
 @app.route('/course/<id>', methods=['PUT'])
